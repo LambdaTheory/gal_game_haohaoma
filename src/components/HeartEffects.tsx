@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Star, Sparkles } from 'lucide-react';
 import { HeartEffect } from '@/types/game';
@@ -9,9 +9,29 @@ interface HeartEffectsProps {
   effects: HeartEffect[];
 }
 
+// 预定义背景粒子位置和动画延迟
+const BACKGROUND_PARTICLES = [
+  { left: 15, top: 25, delay: 0.1 },
+  { left: 35, top: 45, delay: 0.2 },
+  { left: 75, top: 15, delay: 0.3 },
+  { left: 80, top: 55, delay: 0.15 },
+  { left: 55, top: 70, delay: 0.25 },
+  { left: 20, top: 85, delay: 0.4 },
+  { left: 90, top: 80, delay: 0.1 },
+  { left: 40, top: 30, delay: 0.35 },
+  { left: 65, top: 10, delay: 0.45 },
+  { left: 10, top: 60, delay: 0.2 }
+];
+
+// 预定义效果的横向偏移量，使每个效果有固定的随机横向移动
+const X_OFFSETS = [
+  [5, 15], [-10, -25], [15, 30], [-5, -15], [10, 20], 
+  [-15, -5], [20, 10], [-20, -10], [5, 25], [-10, -30]
+];
+
 export const HeartEffects: React.FC<HeartEffectsProps> = ({ effects }) => {
-  // 随机选择爱心图标类型和颜色
-  const getRandomHeartConfig = () => {
+  // 预先计算图标配置，不要每次渲染都重新随机选择
+  const iconConfigs = useMemo(() => {
     const icons = [Heart, Star, Sparkles];
     const colors = [
       'text-pink-400 fill-pink-400',
@@ -28,21 +48,37 @@ export const HeartEffects: React.FC<HeartEffectsProps> = ({ effects }) => {
       'drop-shadow-[0_0_15px_rgba(248,113,113,0.8)]'
     ];
     
-    const randomIndex = Math.floor(Math.random() * icons.length);
-    const colorIndex = Math.floor(Math.random() * colors.length);
-    
-    return {
-      Icon: icons[randomIndex],
-      color: colors[colorIndex],
-      glow: glows[colorIndex]
-    };
+    // 创建30个固定配置，这样应该足够所有效果使用
+    return Array(30).fill(0).map((_, i) => {
+      const iconIndex = i % icons.length;
+      const colorIndex = (i * 2) % colors.length;
+      
+      return {
+        Icon: icons[iconIndex],
+        color: colors[colorIndex],
+        glow: glows[colorIndex],
+        xOffset1: X_OFFSETS[i % 10][0],
+        xOffset2: X_OFFSETS[i % 10][1]
+      };
+    });
+  }, []);
+
+  // 根据效果ID获取配置
+  const getEffectConfig = (effectId: string) => {
+    // 使用字符串的hashCode来获取一个稳定的数值
+    const hashCode = effectId.split('').reduce((acc, char) => {
+      return acc + char.charCodeAt(0);
+    }, 0);
+    const index = Math.abs(hashCode) % iconConfigs.length;
+    return iconConfigs[index];
   };
 
   return (
     <div className="absolute inset-0 pointer-events-none z-15">
       <AnimatePresence>
         {effects.map((effect) => {
-          const { Icon, color, glow } = getRandomHeartConfig();
+          const config = getEffectConfig(effect.id);
+          const { Icon, color, glow, xOffset1, xOffset2 } = config;
           
           return (
             <motion.div
@@ -63,7 +99,7 @@ export const HeartEffects: React.FC<HeartEffectsProps> = ({ effects }) => {
                 scale: [0.3, 1.5, 0.8],
                 y: [-10, -80, -120],
                 rotate: [0, 15, -10, 0],
-                x: [0, Math.random() * 40 - 20, Math.random() * 60 - 30],
+                x: [0, xOffset1, xOffset2],
               }}
               exit={{ 
                 opacity: 0,
@@ -123,13 +159,13 @@ export const HeartEffects: React.FC<HeartEffectsProps> = ({ effects }) => {
           animate={{ opacity: 0.3 }}
           exit={{ opacity: 0 }}
         >
-          {[...Array(10)].map((_, i) => (
+          {BACKGROUND_PARTICLES.map((particle, i) => (
             <motion.div
               key={i}
               className="absolute w-1 h-1 bg-pink-400 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
               }}
               animate={{
                 y: [-5, -25],
@@ -139,7 +175,7 @@ export const HeartEffects: React.FC<HeartEffectsProps> = ({ effects }) => {
               transition={{
                 duration: 1.5,
                 repeat: Infinity,
-                delay: Math.random() * 0.5,
+                delay: particle.delay,
                 ease: "easeOut"
               }}
             />

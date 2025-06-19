@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "H5点击游戏",
-  description: "基于NextJS开发的竖屏H5点击游戏",
+  title: "Game",
+  description: "Game",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   themeColor: "#000000",
   manifest: "/manifest.json",

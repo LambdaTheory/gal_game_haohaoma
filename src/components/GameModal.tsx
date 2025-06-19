@@ -33,6 +33,20 @@ const modalVariants = {
   }
 };
 
+// 定义固定的心形和星星位置数据
+const VICTORY_PARTICLES_DATA = [
+  { left: 15, top: 10, delay: 0.2, xOffset: 15 },
+  { left: 25, top: 30, delay: 0.8, xOffset: -10 },
+  { left: 75, top: 15, delay: 0.4, xOffset: -20 },
+  { left: 85, top: 45, delay: 1.0, xOffset: 25 },
+  { left: 50, top: 60, delay: 0.6, xOffset: -15 },
+  { left: 30, top: 75, delay: 1.2, xOffset: 20 },
+  { left: 70, top: 85, delay: 0.3, xOffset: -25 },
+  { left: 40, top: 20, delay: 0.9, xOffset: 10 },
+  { left: 60, top: 35, delay: 1.4, xOffset: 5 },
+  { left: 20, top: 50, delay: 0.7, xOffset: -5 }
+];
+
 export const GameModal: React.FC<GameModalProps> = ({ 
   type, 
   onClose, 
@@ -212,23 +226,24 @@ export const GameModal: React.FC<GameModalProps> = ({
           <div className="text-center relative">
             {/* 飘落的心形和星星 */}
             <div className="absolute inset-0 pointer-events-none">
-              {[...Array(10)].map((_, i) => (
+              {VICTORY_PARTICLES_DATA.map((particle, i) => (
                 <motion.div
                   key={i}
                   className="absolute"
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
+                    left: `${particle.left}%`,
+                    top: `${particle.top}%`,
                   }}
                   animate={{
                     y: [-20, 100],
                     opacity: [0, 1, 0],
                     rotate: [0, 360],
+                    x: [0, particle.xOffset]
                   }}
                   transition={{
                     duration: 3,
                     repeat: Infinity,
-                    delay: Math.random() * 2,
+                    delay: particle.delay,
                     ease: "linear"
                   }}
                 >

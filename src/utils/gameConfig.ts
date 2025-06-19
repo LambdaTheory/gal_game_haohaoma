@@ -88,6 +88,6 @@ export const GAME_CONSTANTS = {
   PROGRESS_ANIMATION_DURATION: 300, // 进度条动画持续0.3秒
   
   // 容器尺寸（竖屏）
-  MOBILE_WIDTH: 375,
+  MOBILE_WIDTH: 420,
   MOBILE_HEIGHT: 812,
 } as const; 

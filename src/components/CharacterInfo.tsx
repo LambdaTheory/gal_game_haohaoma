@@ -93,7 +93,7 @@ export const CharacterInfo: React.FC<CharacterInfoProps> = ({
         </div>
 
         {/* 进度条背景 - 霓虹效果 */}
-        <div className="w-40 h-4 bg-gray-800/80 rounded-full overflow-hidden relative border border-pink-500/30 shadow-inner">
+        <div className="w-32 md:w-36 max-w-full h-4 bg-gray-800/80 rounded-full overflow-hidden relative border border-pink-500/30 shadow-inner">
           {/* 背景光晕 */}
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-pink-500/20 to-transparent animate-pulse"></div>
 
