@@ -1,10 +1,9 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Star } from 'lucide-react';
-import Image from 'next/image';
-import { CHARACTER_CONFIGS, type CharacterConfig } from '@/utils/characterConfig';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Lock, Star } from "lucide-react";
+import Image from "next/image";
 
 interface Character {
   id: string;
@@ -20,37 +19,41 @@ interface CharacterSelectorProps {
 
 const CHARACTERS: Character[] = [
   {
-    id: 'shenmuli',
-    name: '神木李',
-    image: '/character/shenmuli.png', // 使用默认头像，您可以稍后替换为具体的角色图片
+    id: "shenmuli",
+    name: "神木李",
+    image: "/character/shenmuli.png", // 使用默认头像，您可以稍后替换为具体的角色图片
     isUnlocked: true,
-    description: '经典角色，永远的女神～'
+    description: "经典角色，永远的女神～",
   },
   {
-    id: 'zoe',
-    name: 'Zoe',
-    image: '/character/zoe.png',
+    id: "zoe",
+    name: "Zoe",
+    image: "/character/zoe.png",
     isUnlocked: false,
-    description: '神秘的魅惑女神，等待你的解锁...'
+    description: "神秘的魅惑女神，等待你的解锁...",
   },
   {
-    id: 'yumiko',
-    name: 'Yumiko',
-    image: '/character/Yumiko.png',
+    id: "yumiko",
+    name: "Yumiko",
+    image: "/character/Yumiko.png",
     isUnlocked: false,
-    description: '温柔的东方美人，即将登场...'
+    description: "温柔的东方美人，即将登场...",
   },
   {
-    id: 'dina',
-    name: 'Dina',
-    image: '/character/dina.png',
+    id: "dina",
+    name: "Dina",
+    image: "/character/dina.png",
     isUnlocked: false,
-    description: '热情的拉丁女郎，敬请期待...'
-  }
+    description: "热情的拉丁女郎，敬请期待...",
+  },
 ];
 
-export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacterSelect }) => {
-  const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
+export const CharacterSelector: React.FC<CharacterSelectorProps> = ({
+  onCharacterSelect,
+}) => {
+  const [selectedCharacter, setSelectedCharacter] = useState<string | null>(
+    null
+  );
   const [showModal, setShowModal] = useState(false);
 
   const handleCharacterClick = (character: Character) => {
@@ -58,7 +61,10 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
       setSelectedCharacter(character.id);
       setShowModal(true);
     } else {
-      onCharacterSelect && onCharacterSelect(character.id);
+      // onCharacterSelect && onCharacterSelect(character.id);
+      if (onCharacterSelect) {
+        onCharacterSelect(character.id);
+      }
     }
   };
 
@@ -67,7 +73,9 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
     setSelectedCharacter(null);
   };
 
-  const selectedCharacterData = CHARACTERS.find(c => c.id === selectedCharacter);
+  const selectedCharacterData = CHARACTERS.find(
+    (c) => c.id === selectedCharacter
+  );
 
   return (
     <>
@@ -99,18 +107,18 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
                   alt={character.name}
                   fill
                   className={`object-cover transition-all duration-300 ${
-                    character.isUnlocked 
-                      ? 'grayscale-0 brightness-100' 
-                      : 'grayscale-0 brightness-90 contrast-75 group-hover:brightness-100 group-hover:contrast-100'
+                    character.isUnlocked
+                      ? "grayscale-0 brightness-100"
+                      : "grayscale-0 brightness-90 contrast-75 group-hover:brightness-100 group-hover:contrast-100"
                   }`}
                 />
-                
+
                 {/* 未解锁状态 - 仅在底部添加轻微遮罩和锁图标，不遮挡脸部 */}
                 {!character.isUnlocked && (
                   <>
                     {/* 底部遮罩条 */}
                     <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"></div>
-                    
+
                     {/* 锁图标位置调整到右下角 */}
                     <div className="absolute bottom-1 right-1 bg-black/80 rounded-full p-1">
                       <Lock className="w-3 h-3 md:w-4 md:h-4 text-gray-300" />
@@ -127,7 +135,7 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
               >
                 <div className="bg-black/80 backdrop-blur-sm px-3 py-1.5 rounded-lg border border-purple-500/50">
                   <span className="text-purple-200 text-sm font-medium whitespace-nowrap">
-                    {character.isUnlocked ? character.name : '🔒 待解锁'}
+                    {character.isUnlocked ? character.name : "🔒 待解锁"}
                   </span>
                 </div>
               </motion.div>
@@ -147,7 +155,7 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
               {!character.isUnlocked && (
                 <div className="absolute inset-0 rounded-full border-2 border-purple-400/50 animate-pulse"></div>
               )}
-              
+
               {/* 额外的发光边框 */}
               <div className="absolute inset-0 rounded-full border border-purple-300/30 group-hover:border-pink-400/50 transition-colors duration-300"></div>
             </div>
@@ -168,8 +176,10 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
             <motion.div
               className="bg-gray-800/95 backdrop-blur-xl rounded-2xl p-6 max-w-sm w-full mx-4 relative border-2 border-purple-500/50 shadow-2xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(88, 28, 135, 0.3))',
-                boxShadow: '0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(147, 51, 234, 0.3)'
+                background:
+                  "linear-gradient(135deg, rgba(31, 41, 55, 0.95), rgba(88, 28, 135, 0.3))",
+                boxShadow:
+                  "0 25px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(147, 51, 234, 0.3)",
               }}
               initial={{ scale: 0.8, y: 50, opacity: 0 }}
               animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -179,7 +189,7 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
             >
               {/* 背景装饰 */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-purple-500/10 animate-pulse"></div>
-              
+
               <div className="text-center relative z-10">
                 {/* 角色大图 */}
                 <motion.div
@@ -204,18 +214,18 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
                 </motion.div>
 
                 {/* 角色名称 */}
-                <motion.h2 
+                <motion.h2
                   className="text-2xl font-bold text-white mb-2"
-                  style={{ textShadow: '0 0 20px rgba(147, 51, 234, 0.8)' }}
+                  style={{ textShadow: "0 0 20px rgba(147, 51, 234, 0.8)" }}
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.4 }}
                 >
                   {selectedCharacterData.name}
                 </motion.h2>
-                
+
                 {/* 描述文字 */}
-                <motion.p 
+                <motion.p
                   className="text-purple-200 mb-6 text-sm leading-relaxed"
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -262,4 +272,4 @@ export const CharacterSelector: React.FC<CharacterSelectorProps> = ({ onCharacte
       </AnimatePresence>
     </>
   );
-}; 
+};

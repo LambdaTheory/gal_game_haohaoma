@@ -8,7 +8,6 @@ import { CharacterInfo } from './CharacterInfo';
 import { StaminaDisplay } from './StaminaDisplay';
 import { HeartEffects } from './HeartEffects';
 import { GameModal } from './GameModal';
-import { ShopButton } from './ShopButton';
 import { CharacterSelector } from './CharacterSelector';
 import { BottomNavigation } from './BottomNavigation';
 
@@ -106,8 +105,10 @@ export const Game: React.FC = () => {
             </div> */}
           </div>
 
-          {/* 底部导航栏 */}
-          <BottomNavigation onShowDevelopingModal={showDevelopingModal} />
+          {/* 底部导航栏 - 隐藏视频播放时不显示 */}
+          {!gameState.isPlayingHiddenVideo && (
+            <BottomNavigation onShowDevelopingModal={showDevelopingModal} />
+          )}
 
           {/* 调试信息（开发时使用）
           {process.env.NODE_ENV === 'development' && (

@@ -70,7 +70,9 @@ export const GameModal: React.FC<GameModalProps> = ({
                   onClose();
                   // 延迟一点再打开商城，让关闭动画完成
                   setTimeout(() => {
-                    onOpenShop && onOpenShop();
+                    if (onOpenShop) {
+                      onOpenShop();
+                    }
                   }, 300);
                 }}
                 className="w-full px-8 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full font-bold shadow-lg btn-glow"
@@ -117,7 +119,7 @@ export const GameModal: React.FC<GameModalProps> = ({
             </motion.h2>
             
             <p className="text-pink-300 mb-6 text-sm italic">
-              "选择你的道具，让她更加迷恋你~"
+              &quot;选择你的道具，让她更加迷恋你~&quot;
             </p>
             
             <div className="space-y-3 max-h-60 overflow-y-auto custom-scrollbar">
@@ -342,7 +344,7 @@ export const GameModal: React.FC<GameModalProps> = ({
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.8 }}
             >
-              "工程师小哥哥正在加班加点为你打造~"
+              &quot;工程师小哥哥正在加班加点为你打造~&quot;
             </motion.p>
             
             <motion.button

@@ -112,7 +112,7 @@ export const useGameState = () => {
     if (!item) return;
 
     setGameState(prev => {
-      let newState = { ...prev };
+      const newState = { ...prev };
 
       // 根据商品类型处理效果
       switch (item.type) {
@@ -173,6 +173,7 @@ export const useGameState = () => {
     setGameState(prev => ({
       ...prev,
       isPlayingHiddenVideo: true,
+      isFullscreenPlaying: true, // 启用全屏播放模式，隐藏所有UI元素
     }));
     setModalType('none');
   }, []);
@@ -198,6 +199,7 @@ export const useGameState = () => {
     setGameState(prev => ({
       ...prev,
       isFullscreenPlaying: false,
+      isPlayingHiddenVideo: false, // 同时停止播放隐藏视频
       currentVideoType: 'demo-video', // 回到默认视频
     }));
   }, []);

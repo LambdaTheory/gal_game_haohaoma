@@ -4,11 +4,7 @@ import React from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Play, Lock, Heart } from "lucide-react";
-import { 
-  getCharacterVideos, 
-  updateVideoUnlockStatus,
-  VideoInfo 
-} from "@/utils/videoConfig";
+import { updateVideoUnlockStatus, VideoInfo } from "@/utils/videoConfig";
 import { getCharacterDisplayName } from "@/utils/characterConfig";
 
 interface CharacterVideosModalProps {
@@ -29,8 +25,8 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
   // 获取角色的视频列表，并根据当前进度更新解锁状态
   const videos = updateVideoUnlockStatus(character, progress);
   const characterDisplayName = getCharacterDisplayName(character);
-  
-  const unlockedCount = videos.filter(video => video.isUnlocked).length;
+
+  const unlockedCount = videos.filter((video) => video.isUnlocked).length;
   const totalCount = videos.length;
 
   const handlePlayVideo = (video: VideoInfo) => {
@@ -41,7 +37,7 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
   };
 
   // 使用 Portal 确保弹窗渲染到 body 中
-  if (typeof window === 'undefined') return null;
+  if (typeof window === "undefined") return null;
 
   return createPortal(
     <AnimatePresence>
@@ -70,9 +66,11 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
             transition={{ type: "spring", duration: 0.5 }}
           >
             {/* 发光边框效果 */}
-            <div className="absolute inset-0 bg-gradient-to-r from-pink-400 via-purple-500 to-pink-400 opacity-20 animate-gradient-shift rounded-2xl" 
-                 style={{ backgroundSize: '200% 200%' }} />
-            
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-pink-400 via-purple-500 to-pink-400 opacity-20 animate-gradient-shift rounded-2xl"
+              style={{ backgroundSize: "200% 200%" }}
+            />
+
             {/* 关闭按钮 */}
             <button
               onClick={onClose}
@@ -83,9 +81,9 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
 
             {/* 标题区域 */}
             <div className="relative p-6 pb-4">
-              <motion.h2 
+              <motion.h2
                 className="text-2xl font-bold text-white text-center mb-2"
-                style={{ textShadow: '0 0 20px rgba(244, 114, 182, 0.8)' }}
+                style={{ textShadow: "0 0 20px rgba(244, 114, 182, 0.8)" }}
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.2 }}
@@ -93,8 +91,8 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
                 <Heart className="w-6 h-6 inline mr-2 fill-pink-400 text-pink-400" />
                 {characterDisplayName} 的视频收藏
               </motion.h2>
-              
-              <motion.div 
+
+              <motion.div
                 className="text-center text-pink-200 text-sm"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -112,9 +110,10 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
                     key={video.id}
                     className={`
                       relative p-4 rounded-xl border transition-all duration-300
-                      ${video.isUnlocked 
-                        ? 'bg-gradient-to-r from-pink-500/20 to-purple-500/20 border-pink-400/50 hover:border-pink-400/80 cursor-pointer' 
-                        : 'bg-gray-800/50 border-gray-600/50 cursor-not-allowed'
+                      ${
+                        video.isUnlocked
+                          ? "bg-gradient-to-r from-pink-500/20 to-purple-500/20 border-pink-400/50 hover:border-pink-400/80 cursor-pointer"
+                          : "bg-gray-800/50 border-gray-600/50 cursor-not-allowed"
                       }
                     `}
                     initial={{ x: -50, opacity: 0 }}
@@ -127,13 +126,16 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
                     {/* 视频信息 */}
                     <div className="flex items-center space-x-3">
                       {/* 播放/锁定图标 */}
-                      <div className={`
+                      <div
+                        className={`
                         w-12 h-12 rounded-full flex items-center justify-center
-                        ${video.isUnlocked 
-                          ? 'bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg shadow-pink-500/30' 
-                          : 'bg-gray-700'
+                        ${
+                          video.isUnlocked
+                            ? "bg-gradient-to-r from-pink-500 to-purple-500 shadow-lg shadow-pink-500/30"
+                            : "bg-gray-700"
                         }
-                      `}>
+                      `}
+                      >
                         {video.isUnlocked ? (
                           <Play className="w-5 h-5 text-white fill-white ml-0.5" />
                         ) : (
@@ -143,10 +145,18 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
 
                       {/* 视频详情 */}
                       <div className="flex-1">
-                        <h3 className={`font-medium ${video.isUnlocked ? 'text-white' : 'text-gray-400'}`}>
+                        <h3
+                          className={`font-medium ${
+                            video.isUnlocked ? "text-white" : "text-gray-400"
+                          }`}
+                        >
                           {video.name}
                         </h3>
-                        <p className={`text-sm ${video.isUnlocked ? 'text-pink-200' : 'text-gray-500'}`}>
+                        <p
+                          className={`text-sm ${
+                            video.isUnlocked ? "text-pink-200" : "text-gray-500"
+                          }`}
+                        >
                           {video.unlockCondition}
                         </p>
                       </div>
@@ -168,7 +178,8 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
                       <motion.div
                         className="absolute inset-0 bg-gradient-to-r from-pink-400/10 to-purple-400/10 rounded-xl opacity-0 hover:opacity-100 pointer-events-none transition-opacity duration-300"
                         style={{
-                          background: 'linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))',
+                          background:
+                            "linear-gradient(45deg, rgba(236, 72, 153, 0.1), rgba(168, 85, 247, 0.1))",
                         }}
                       />
                     )}
@@ -178,7 +189,7 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
             </div>
 
             {/* 底部提示 */}
-            <motion.div 
+            <motion.div
               className="relative px-6 pb-6 text-center"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -194,4 +205,4 @@ export const CharacterVideosModal: React.FC<CharacterVideosModalProps> = ({
     </AnimatePresence>,
     document.body
   );
-}; 
+};
