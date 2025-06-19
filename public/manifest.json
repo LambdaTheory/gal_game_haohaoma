@@ -1,0 +1,17 @@
+{
+  "name": "H5点击游戏",
+  "short_name": "点击游戏",
+  "description": "基于NextJS开发的竖屏H5点击游戏",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+} 
